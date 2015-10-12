@@ -1,12 +1,18 @@
 require 'rubygems'
 require 'sinatra'
+require 'pry'
 
 set :sessions, true
 
 get '/' do
-  'Hello World'
+  erb :set_name
 end
 
-get '/test' do
-  erb :test
+post '/set_name' do
+  session[:player_name] = params[:player_name]
+  redirect '/game'
+end
+
+get '/game' do
+  erb :game
 end
