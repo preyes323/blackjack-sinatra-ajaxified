@@ -2,7 +2,9 @@ require 'rubygems'
 require 'sinatra'
 require 'pry'
 
-set :sessions, true
+use Rack::Session::Cookie, key: 'rack.session',
+                           path: '/',
+                           secret: 'your_secret'
 
 get '/' do
   erb :set_name
