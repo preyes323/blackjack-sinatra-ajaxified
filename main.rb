@@ -12,7 +12,15 @@ end
 
 post '/set_name' do
   session[:player_name] = params[:player_name]
-  redirect '/game'
+  redirect session[:player_name].empty? ? '/' : '/set_bet'
+end
+
+get '/set_bet' do
+  erb :set_bet
+end
+
+post '/set_bet' do
+
 end
 
 get '/game' do
