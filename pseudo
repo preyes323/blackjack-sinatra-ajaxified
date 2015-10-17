@@ -1,0 +1,17 @@
+1. get player_name
+2. get buy_in
+  a. check money input
+  b. check valid buy in
+  c. set buy in
+3. get bet
+  a. check money input
+  b. check valid bet
+  c. set bet
+4. game proper
+  a. shuffle deck (optional)
+  b. deal cards
+  c. dealer check hole
+  d. player move
+  e. dealer move
+  f. find winner
+5. check if play again or start over
