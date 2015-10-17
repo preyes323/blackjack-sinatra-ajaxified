@@ -1,8 +1,7 @@
-<h4> Set Player Name </h4>
-
-<form action='/set_name' method='post'>
-  Name: <input type='text' name="player_name" />
-  <br/>
-  <input type='submit' class='btn btn-primary' />
-
+<h3> <%= "Hi #{session[:player_name]}!" %> </h3>
+<form action='/set_buy_in' method='post'>
+  <p class="lead">How much do you want to buy-in?</p>
+  <input type='text' name='money' />
+  <input type='submit' class='btn btn-primary' value='Buy-in' />
+  <p class='muted'><small>*Buy-in must be multiple of 100</small></p>
 </form>
