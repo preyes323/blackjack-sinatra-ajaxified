@@ -1,6 +1,6 @@
 module Blackjack
-  def money_input(money, limit)
-    Integer(money) if valid_money_input?(money, limit) && valid_denomination?(money)
+  def buy_in(money)
+    Integer(money) if valid_money_input?(money) && valid_denomination?(money)
   end
 
   private
