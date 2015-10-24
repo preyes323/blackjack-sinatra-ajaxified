@@ -2,6 +2,7 @@ require 'rubygems'
 require 'sinatra'
 require 'pry'
 require_relative 'blackjack_helpers'
+require_relative 'error_handler'
 
 use Rack::Session::Cookie, key: 'rack.session',
                            path: '/',
@@ -15,8 +16,8 @@ get '/', &get_player_name
 get '/player_name', &get_player_name
 
 post '/player_name' do
-  session[:player_name] = params[:player_name]
-  redirect session[:player_name].empty? ? '/' : '/buy_in'
+  set_player_name(params[:player_name])
+  redirect errors ? '/' : '/buy_in'
 end
 
 get '/buy_in' do
@@ -24,7 +25,12 @@ get '/buy_in' do
 end
 
 post '/buy_in' do
-  
+  buy_in(params[:money])
+  redirect errors ? '/buy_in' : '/bet'
 end
 
-helpers Blackjack
+get '/bet' do
+  erb :bet
+end
+
+helpers ErrorHandler, Blackjack
