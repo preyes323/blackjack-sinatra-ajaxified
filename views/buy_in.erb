@@ -1,8 +1,11 @@
 <h3> <%= "Hi #{player_name}!" %> </h3>
 <form action='/buy_in' method='post'>
   <p class="lead">How much do you want to buy-in?</p>
-  <input type='text' name='money' />
-  <br/>
-  <input type='submit' class='btn btn-primary' value='Buy-in' />
-  <p class='muted'><small>*Buy-in must be multiple of 100</small></p>
+  <div class='input-append'>
+    <input class='span2' id='appendedInputButton' type='text' name='money' />
+    <button type='submit' class='btn btn-primary'>Buy-in</button>
+  </div>
+  <p class='muted'>
+    <small>*Buy-in must be multiple of <%= "#{MULTIPLE}" %></small>
+  </p>
 </form>

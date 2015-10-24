@@ -1,0 +1,11 @@
+<form action='/bet' method='post'>
+  <p class="lead">How much do you want to bet?</p>
+  <div class='input-append'>
+    <input class='span2' id='appendedInputButton' type='text' name='money' />
+    <button type='submit' class='btn btn-primary'>Bet</button>
+  </div>
+  <p class='muted'>
+    <small>*Bet must be multiple of <%= "#{MULTIPLE}" %></small>
+  </p>
+</form>
+<div class='alert alert-info'><%= "Available money is: $#{money}" %></div>

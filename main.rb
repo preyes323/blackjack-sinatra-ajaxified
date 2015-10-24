@@ -25,12 +25,21 @@ get '/buy_in' do
 end
 
 post '/buy_in' do
-  buy_in(params[:money])
+  set_buy_in(params[:money])
   redirect errors ? '/buy_in' : '/bet'
 end
 
 get '/bet' do
   erb :bet
+end
+
+post '/bet' do
+  set_bet(params[:money])
+  redirect errors ? '/bet' : '/game'
+end
+
+get '/game' do
+  erb :game
 end
 
 helpers ErrorHandler, Blackjack
