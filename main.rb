@@ -17,29 +17,36 @@ get '/player_name', &get_player_name
 
 post '/player_name' do
   set_player_name(params[:player_name])
-  redirect errors ? '/' : '/buy_in'
+  halt erb :player_name unless player_name
+  redirect '/game/buy_in'
 end
 
-get '/buy_in' do
+get '/game/buy_in' do
   erb :buy_in
 end
 
-post '/buy_in' do
+post '/game/buy_in' do
   set_buy_in(params[:money])
-  redirect errors ? '/buy_in' : '/bet'
+  halt erb :buy_in if @errors
+  redirect '/game/bet'
 end
 
-get '/bet' do
+get '/game/bet' do
   erb :bet
 end
 
-post '/bet' do
+post '/game/bet' do
   set_bet(params[:money])
-  redirect errors ? '/bet' : '/game'
+  halt erb :bet if @errors
+  redirect '/game'
 end
 
 get '/game' do
   erb :game
+end
+
+before '/game*' do
+  halt erb :player_name unless authenticated?
 end
 
 helpers ErrorHandler, Blackjack

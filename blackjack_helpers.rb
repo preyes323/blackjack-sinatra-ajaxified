@@ -2,9 +2,15 @@ module Blackjack
   INVALID_MONEY = -1
   MULTIPLE = 10
 
+  def authenticated?
+    add_error('Input player name first!') unless player_name
+    !!player_name
+  end
+
   def set_player_name(name)
-    if name.empty?
+    if name.rstrip.empty?
       add_error('No name given')
+      session[:player_name] = nil
     else
       session[:player_name] = name
     end

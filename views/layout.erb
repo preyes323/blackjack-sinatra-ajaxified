@@ -11,22 +11,23 @@
       <div class="navbar-inner">
         <div class="container">
             <ul class="nav">
-              <li><a href="/">Nav Item</a></li>
+              <li><a href="/">Start Over</a></li>
             </ul>
         </div>
       </div>
     </div>
 
   <div class="container">
-    <%if errors %>
-      <% errors.each do |error| %>
-        <div>
-          <p class="alert alert-error"><%=error%> </p>
-        </div>
-      <% end %>
-      <% clear_errors %>
+    <%if @errors %>
+      <div class="alert alert-error">
+        <ul>
+        <% @errors.each do |error| %>
+          <li><%=error%></li>
+        <% end %>
+        </ul>
+      </div>
     <% end %>
-      <%= yield %>
+    <%= yield %>
   </div>
   </body>
 </html>

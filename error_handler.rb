@@ -1,18 +1,10 @@
 module ErrorHandler
   def add_error(err)
-    session[:errors] ||= []
-    session[:errors] << err
+    @errors ||= []
+    @errors << err
   end
 
-  def clear_errors
-    session[:errors] = nil
-  end
-
-  def errors
-    session[:errors]
-  end
-
-  def error_count
-    session[:errors].length
+  def errors_count
+    @errors.length || 0
   end
 end
