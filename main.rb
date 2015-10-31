@@ -38,6 +38,7 @@ end
 post '/game/bet' do
   set_bet(params[:money])
   halt erb :bet if @errors
+  deal_cards
   redirect '/game'
 end
 

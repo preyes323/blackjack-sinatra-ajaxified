@@ -4,7 +4,7 @@ module Blackjack
 
   def authenticated?
     add_error('Input player name first!') unless player_name
-    !!player_name
+    player_name
   end
 
   def set_player_name(name)
@@ -38,7 +38,29 @@ module Blackjack
     session[:bet]
   end
 
+  def deal_cards
+    deck = shuffle_cards
+    session[:player_cards] = []
+    session[:dealer_cards] = []
+    2.times do
+      session[:dealer_cards] << deck.pop
+      session[:player_cards] << deck.pop
+    end
+  end
+
+  def player_cards
+    session[:player_cards]
+  end
+
+  def dealer_cards
+    session[:dealer_cards]
+  end
+
   private
+
+  def shuffle_cards
+    %w(H D S C).product(%w(A 2 3 4 5 6 6 7 9 J Q K)).shuffle
+  end
 
   def valid_value?(money)
     result = money.modulo(MULTIPLE) == 0
