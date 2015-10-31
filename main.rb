@@ -39,10 +39,21 @@ post '/game/bet' do
   set_bet(params[:money])
   halt erb :bet if @errors
   deal_cards
+  session[:dealer_turn] = false
   redirect '/game'
 end
 
 get '/game' do
+  erb :game
+end
+
+post '/game/player_stay' do
+  session[:dealer_turn] = true
+  erb :game
+end
+
+post '/game/player_hit' do
+  hit(player_cards)
   erb :game
 end
 

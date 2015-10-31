@@ -39,7 +39,7 @@ module Blackjack
   end
 
   def deal_cards
-    deck = shuffle_cards
+    session[:deck] = shuffle_cards
     session[:player_cards] = []
     session[:dealer_cards] = []
     2.times do
@@ -54,6 +54,37 @@ module Blackjack
 
   def dealer_cards
     session[:dealer_cards]
+  end
+
+  def deck
+    session[:deck]
+  end
+
+  def calculate_total(cards)
+    total = cards.collect do |card|
+      case card[1]
+      when '2'..'10'
+        card[1].to_i
+      when 'J', 'Q', 'K'
+        10
+      else
+        0
+      end
+    end.reduce(:+)
+    cards.each do |card|
+      if card[1] == 'A'
+        if (total + 11) > 21
+          total += 1
+        else
+          total += 11
+        end
+      end
+    end
+    total
+  end
+
+  def hit(cards)
+    cards << deck.pop
   end
 
   private
