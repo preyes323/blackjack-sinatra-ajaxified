@@ -27,7 +27,7 @@ end
 
 post '/game/buy_in' do
   set_buy_in(params[:money])
-  halt erb :buy_in if @errors
+  halt erb :buy_in if @error
   redirect '/game/bet'
 end
 
@@ -37,7 +37,7 @@ end
 
 post '/game/bet' do
   set_bet(params[:money])
-  halt erb :bet if @errors
+  halt erb :bet if @error
   deal_cards
   initialize_game_params
   redirect '/game'
@@ -54,24 +54,32 @@ end
 
 post '/game/player_hit' do
   hit(player_cards)
-  erb :game
-end
-
-post '/game/dealer_show' do
-  hit(dealer_cards)
-  if dealer_turn_end?
-    session[:winner] = get_winner(player_cards, dealer_cards)
+  if bust?(player_cards)
+    session[:winner] = :dealer
     payout(session[:winner])
   end
   erb :game
 end
 
-get '/game/result' do
-  erb :result
+post '/game/dealer_show' do
+  if dealer_turn_end?
+    session[:winner] = get_winner(player_cards, dealer_cards)
+    payout(session[:winner])
+  else
+    hit(dealer_cards)
+  end
+  erb :game
 end
 
 before '/game*' do
   halt erb :player_name unless authenticated?
 end
 
-helpers ErrorHandler, Blackjack
+before '/game' do
+  unless with_buy_in?
+    @error = 'Input buy-in amount first'
+    halt erb :buy_in
+  end
+end
+
+helpers Blackjack

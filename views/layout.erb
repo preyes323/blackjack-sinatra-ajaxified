@@ -18,13 +18,9 @@
     </div>
 
   <div class="container">
-    <%if @errors %>
+    <%if @error %>
       <div class="alert alert-error">
-        <ul>
-        <% @errors.each do |error| %>
-          <li><%=error%></li>
-        <% end %>
-        </ul>
+        <%= @error %>
       </div>
     <% end %>
     <%= yield %>

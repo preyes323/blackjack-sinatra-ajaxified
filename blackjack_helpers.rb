@@ -4,13 +4,13 @@ module Blackjack
   MULTIPLE = 10
 
   def authenticated?
-    add_error('Input player name first!') unless player_name
+    @error = 'Input player name first!' unless player_name
     player_name
   end
 
   def set_player_name(name)
     if name.rstrip.empty?
-      add_error('No name given')
+      @error = 'No name given'
       session[:player_name] = nil
     else
       session[:player_name] = name
@@ -31,6 +31,10 @@ module Blackjack
     if valid_input?(bet) && valid_value?(bet) && valid_bet?(money, bet)
       session[:bet] = bet
     end
+  end
+
+  def with_buy_in?
+    session[:buy_in]
   end
 
   def money
@@ -141,19 +145,19 @@ module Blackjack
 
   def valid_value?(money)
     result = money.modulo(MULTIPLE) == 0
-    add_error("Money must be a multiple of #{MULTIPLE}") unless result
+    @error = "Money must be a multiple of #{MULTIPLE}" unless result
     result
   end
 
   def valid_input?(money)
     result = money > 0
-    add_error('Money must be greater than 0') unless result
+    @error = 'Money must be greater than 0' unless result
     result
   end
 
   def valid_bet?(money, bet)
     result = bet <= money
-    add_error('Bet must not bet greater than money') unless result
+    @error = 'Bet must not bet greater than money' unless result
     result
   end
 
