@@ -39,7 +39,7 @@ post '/game/bet' do
   set_bet(params[:money])
   halt erb :bet if @errors
   deal_cards
-  session[:dealer_turn] = false
+  initialize_game_params
   redirect '/game'
 end
 
@@ -55,6 +55,19 @@ end
 post '/game/player_hit' do
   hit(player_cards)
   erb :game
+end
+
+post '/game/dealer_show' do
+  hit(dealer_cards)
+  if dealer_turn_end?
+    session[:winner] = get_winner(player_cards, dealer_cards)
+    payout(session[:winner])
+  end
+  erb :game
+end
+
+get '/game/result' do
+  erb :result
 end
 
 before '/game*' do

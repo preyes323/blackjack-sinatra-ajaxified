@@ -1,3 +1,38 @@
+<% if session[:winner] %>
+    <% case session[:winner]
+       when :player %>
+    <div class='row alert alert-success'>
+      <h4><%= "#{player_name} wins $#{bet}" %></h4>
+      <p><%= "Total money is now $#{money}" %></p>
+    </div>
+    <% when :dealer %>
+    <div class='row alert alert-error'>
+      <h4><%= "#{player_name} loses $#{bet}" %></h4>
+      <p><%= "Total money is now $#{money}" %></p>
+    </div>
+    <% when :tie %>
+    <div class='row alert alert-info'>
+      <h4>Nobody won!</h4>
+      <p><%= "Total money is still $#{money}" %></p>
+    </div>
+    <% end %>
+
+    <% if money > 0 %>
+      <div class='row'>
+        <div class='span1'>
+          <form action='/game/bet' method='get'>
+            <button type='submit' class='btn btn-success btn-block'>
+              Play again
+            </button>
+          </form>
+        </div>
+      </div>
+    <% else %>
+      <p>Sorry you don't have any moeny left. Press Start over to play again</p>
+    <% end %>
+<% end %>
+
+
 <h4>Dealer Cards</h4>
 <% dealer_cards.each do |card| %>
 <ul>
@@ -14,15 +49,29 @@
   <%= "#{player_name} has #{calculate_total(player_cards)}" %>
 </p>
 
-<div class='row'>
-  <div class='span1'>
-    <form action='/game/player_stay' method='post'>
-      <button type='submit' class='btn btn-success btn-block'>Stay</button>
-    </form>
-  </div>
-  <div class='span1'>
-    <form action='/game/player_hit' method='post'>
-      <button type='submit' class='btn btn-warning btn-block'>Hit</button>
-    </form>
-  </div>
-</div>
+<% unless session[:winner] %>
+  <% unless session[:dealer_turn] %>
+    <div class='row'>
+      <div class='span1'>
+        <form action='/game/player_stay' method='post'>
+          <button type='submit' class='btn btn-success btn-block'>Stay</button>
+        </form>
+      </div>
+      <div class='span1'>
+        <form action='/game/player_hit' method='post'>
+          <button type='submit' class='btn btn-warning btn-block'>Hit</button>
+        </form>
+      </div>
+    </div>
+  <% else %>
+    <div class='row'>
+      <div class='span3'>
+        <form action='/game/dealer_show' method='post'>
+          <button type='submit' class='btn btn-success btn-block'>
+            Show dealer's next card
+          </button>
+        </form>
+      </div>
+    </div>
+  <% end %>
+<% end %>

@@ -1,4 +1,5 @@
 module Blackjack
+  include Comparable
   INVALID_MONEY = -1
   MULTIPLE = 10
 
@@ -27,7 +28,9 @@ module Blackjack
 
   def set_bet(bet)
     bet = numeric?(bet) ? Integer(bet) : INVALID_MONEY
-    session[:bet] = bet if valid_input?(bet) && valid_bet?(money, bet)
+    if valid_input?(bet) && valid_value?(bet) && valid_bet?(money, bet)
+      session[:bet] = bet
+    end
   end
 
   def money
@@ -87,6 +90,49 @@ module Blackjack
     cards << deck.pop
   end
 
+  def dealer_turn_end?
+    calculate_total(dealer_cards) > 17 || bust?(dealer_cards) || blackjack?(dealer_cards)
+  end
+
+  def bust?(cards)
+    calculate_total(cards) > 21
+  end
+
+  def blackjack?(cards)
+    calculate_total(cards) == 21
+  end
+
+  def get_winner(player_cards, dealer_cards)
+    if bust?(player_cards) && bust?(dealer_cards)
+      return :tie
+    elsif bust?(player_cards) && !bust?(dealer_cards)
+      return :dealer
+    elsif !bust?(player_cards) && bust?(dealer_cards)
+      return :player
+    end
+    player_value = calculate_total(player_cards)
+    dealer_value = calculate_total(dealer_cards)
+    return :tie if player_value == dealer_value
+    player_value > dealer_value ? :player : :dealer
+  end
+
+  def payout(winner)
+    if winner == :player
+      if blackjack?(player_cards)
+        session[:buy_in] += bet * 2
+      else
+        session[:buy_in] += bet
+      end
+    elsif winner == :dealer
+      session[:buy_in] -= bet
+    end
+  end
+
+  def initialize_game_params
+    session[:dealer_turn] = false
+    session[:winner] = nil
+  end
+
   private
 
   def shuffle_cards
@@ -113,5 +159,19 @@ module Blackjack
 
   def numeric?(num)
     !!Integer(num) rescue false
+  end
+
+  def <=>(another_hand)
+    if bust? && bust?
+      return 0
+    elsif bust? && !another_hand.bust?
+      return -1
+    elsif !bust? && another_hand.bust?
+      return 1
+    end
+    hand_value = calculate_total
+    another_hand_value = another_hand.calculate_total
+    return 0 if hand_value == another_hand_value
+    hand_value > another_hand_value ? 1 : -1
   end
 end
