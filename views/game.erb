@@ -19,7 +19,7 @@
 
     <% if money > 0 %>
       <div class='row'>
-        <div class='span1'>
+        <div class='span2'>
           <form action='/game/bet' method='get'>
             <button type='submit' class='btn btn-success btn-block'>
               Play again
@@ -33,21 +33,26 @@
 <% end %>
 
 
-<h4>Dealer Cards</h4>
-<% dealer_cards.each do |card| %>
-<ul>
-  <li><%= card %></li>
-</ul>
-<% end %>
-<h4>Player Cards</h4>
-<% player_cards.each do |card| %>
-<ul>
-  <li><%= card %></li>
-</ul>
-<% end %>
-<p>
-  <%= "#{player_name} has #{calculate_total(player_cards)}" %>
-</p>
+<div class='well'>
+  <h4>Dealer Cards</h4>
+  <% dealer_cards.each do |card| %>
+    <%= card_image(card) %>
+  <% end %>
+  <% if session[:dealer_turn] %>
+    <p>
+      <%= "Delaer has #{calculate_total(dealer_cards)}" %>
+    </p>
+  <% end %>
+</div>
+<div class='well'>
+  <h4>Player Cards</h4>
+  <% player_cards.each do |card| %>
+    <%= card_image(card) %>
+  <% end %>
+  <p>
+    <%= "#{player_name} has #{calculate_total(player_cards)}" %>
+  </p>
+</div>
 
 <% unless session[:winner] %>
   <% unless session[:dealer_turn] %>

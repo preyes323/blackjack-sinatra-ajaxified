@@ -54,10 +54,13 @@ end
 
 post '/game/player_hit' do
   hit(player_cards)
+  session[:dealer_turn] = true if blackjack?(player_cards)
   if bust?(player_cards)
+    session[:dealer_turn] = true
     session[:winner] = :dealer
     payout(session[:winner])
   end
+
   erb :game
 end
 
