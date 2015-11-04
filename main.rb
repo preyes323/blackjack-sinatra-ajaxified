@@ -49,7 +49,7 @@ end
 
 post '/game/player_stay' do
   session[:dealer_turn] = true
-  erb :game
+  redirect '/game'
 end
 
 post '/game/player_hit' do
@@ -60,8 +60,7 @@ post '/game/player_hit' do
     session[:winner] = :dealer
     payout(session[:winner])
   end
-
-  erb :game
+  redirect '/game'
 end
 
 post '/game/dealer_show' do
@@ -71,7 +70,7 @@ post '/game/dealer_show' do
   else
     hit(dealer_cards)
   end
-  erb :game
+  redirect '/game'
 end
 
 before '/game*' do

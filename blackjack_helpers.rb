@@ -161,6 +161,27 @@ module Blackjack
     end
   end
 
+  def display_winning_message(winner)
+    case winner
+    when :player
+      %Q(<div class='row alert alert-success'>
+         <h4>#{player_name} wins $#{bet}</h4>
+         <p>Total money is now $#{money}</p>
+         </div>)
+    when :dealer
+      %Q(<div class='row alert alert-error'>
+         <h4>#{player_name} loses $#{bet}</h4>
+         <p>Total money is now $#{money}</p>
+         </div>)
+    when :tie
+      %Q(<div class='row alert alert-info'>
+         <h4>Nobody won!</h4>
+         <p>Total money is still $#{money}</p>
+         </div>)
+    end
+
+  end
+
   private
 
   def shuffle_cards

@@ -1,21 +1,5 @@
 <% if session[:winner] %>
-    <% case session[:winner]
-       when :player %>
-    <div class='row alert alert-success'>
-      <h4><%= "#{player_name} wins $#{bet}" %></h4>
-      <p><%= "Total money is now $#{money}" %></p>
-    </div>
-    <% when :dealer %>
-    <div class='row alert alert-error'>
-      <h4><%= "#{player_name} loses $#{bet}" %></h4>
-      <p><%= "Total money is now $#{money}" %></p>
-    </div>
-    <% when :tie %>
-    <div class='row alert alert-info'>
-      <h4>Nobody won!</h4>
-      <p><%= "Total money is still $#{money}" %></p>
-    </div>
-    <% end %>
+    <%= display_winning_message(session[:winner]) %>
 
     <% if money > 0 %>
       <div class='row'>
@@ -55,7 +39,17 @@
 </div>
 
 <% unless session[:winner] %>
-  <% unless session[:dealer_turn] %>
+  <% if session[:dealer_turn] %>
+    <div class='row'>
+      <div class='span3'>
+        <form action='/game/dealer_show' method='post'>
+          <button type='submit' class='btn btn-success btn-block'>
+            Show dealer's next card
+          </button>
+        </form>
+      </div>
+    </div>
+  <% else %>
     <div class='row'>
       <div class='span1'>
         <form action='/game/player_stay' method='post'>
@@ -65,16 +59,6 @@
       <div class='span1'>
         <form action='/game/player_hit' method='post'>
           <button type='submit' class='btn btn-warning btn-block'>Hit</button>
-        </form>
-      </div>
-    </div>
-  <% else %>
-    <div class='row'>
-      <div class='span3'>
-        <form action='/game/dealer_show' method='post'>
-          <button type='submit' class='btn btn-success btn-block'>
-            Show dealer's next card
-          </button>
         </form>
       </div>
     </div>
