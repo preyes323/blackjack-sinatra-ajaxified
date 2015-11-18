@@ -51,16 +51,7 @@
     </div>
   <% else %>
     <div class='row'>
-      <div class='span1'>
-        <form action='/game/player_stay' method='post'>
-          <button type='submit' class='btn btn-success btn-block'>Stay</button>
-        </form>
-      </div>
-      <div class='span1'>
-        <form action='/game/player_hit' method='post'>
-          <button type='submit' class='btn btn-warning btn-block'>Hit</button>
-        </form>
-      </div>
+      <%= set_possible_moves %>
     </div>
   <% end %>
 <% end %>

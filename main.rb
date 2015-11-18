@@ -39,6 +39,7 @@ post '/game/bet' do
   set_bet(params[:money])
   halt erb :bet if @error
   deal_cards
+  set_possible_moves
   initialize_game_params
   redirect '/game'
 end
@@ -57,6 +58,17 @@ post '/game/player_hit' do
   session[:dealer_turn] = true if blackjack?(player_cards)
   if bust?(player_cards)
     session[:dealer_turn] = true
+    session[:winner] = :dealer
+    payout(session[:winner])
+  end
+  redirect '/game'
+end
+
+post '/game/player_double' do
+  hit(player_cards)
+  double_bet
+  session[:dealer_turn] = true
+  if bust?(player_cards)
     session[:winner] = :dealer
     payout(session[:winner])
   end

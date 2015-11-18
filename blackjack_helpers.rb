@@ -45,6 +45,10 @@ module Blackjack
     session[:bet]
   end
 
+  def doubled?
+    session[:double]
+  end
+
   def deal_cards
     session[:deck] = shuffle_cards
     session[:player_cards] = []
@@ -63,8 +67,35 @@ module Blackjack
     session[:dealer_cards]
   end
 
+  def double_bet
+    session[:bet] *= 2
+  end
+
   def deck
     session[:deck]
+  end
+
+  def set_possible_moves
+    moves = %Q(<div class='span1'>
+               <form action='/game/player_stay' method='post'>
+               <button type='submit' class='btn btn-success btn-block'>Stay</button>
+               </form>
+               </div>
+               <div class='span1'>
+               <form action='/game/player_hit' method='post'>
+               <button type='submit' class='btn btn-warning btn-block'>Hit</button>
+               </form>
+               </div>)
+    unless doubled?
+      moves += "\n"
+      moves += %Q(<div class='span1'>
+                  <form action='/game/player_double' method='post'>
+                  <button type='submit' class='btn btn-danger btn-block'>Double</button>
+                  </form>
+                  </div>)
+      session[:double] = true
+    end
+    moves
   end
 
   def calculate_total(cards)
@@ -135,6 +166,8 @@ module Blackjack
   def initialize_game_params
     session[:dealer_turn] = false
     session[:winner] = nil
+    session[:double] = false
+    session[:split] = false
   end
 
   def card_image(card)
