@@ -154,7 +154,8 @@ module Blackjack
   def payout(winner)
     if winner == :player
       if blackjack?(player_cards)
-        session[:buy_in] += bet * 2
+        sessions[:bet] *= 2
+        session[:buy_in] += bet
       else
         session[:buy_in] += bet
       end
