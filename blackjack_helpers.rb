@@ -68,7 +68,11 @@ module Blackjack
   end
 
   def double_bet
-    session[:bet] *= 2
+    if session[:bet] * 2 > money
+      @error = 'Not enough money to double bet'
+    else
+      session[:bet] *= 2
+    end
   end
 
   def deck
@@ -154,7 +158,7 @@ module Blackjack
   def payout(winner)
     if winner == :player
       if blackjack?(player_cards)
-        sessions[:bet] *= 2
+        session[:bet] *= 2
         session[:buy_in] += bet
       else
         session[:buy_in] += bet
@@ -200,17 +204,14 @@ module Blackjack
     when :player
       %Q(<div class='row alert alert-success'>
          <h4>#{player_name} wins $#{bet}</h4>
-         <p>Total money is now $#{money}</p>
          </div>)
     when :dealer
       %Q(<div class='row alert alert-error'>
          <h4>#{player_name} loses $#{bet}</h4>
-         <p>Total money is now $#{money}</p>
          </div>)
     when :tie
       %Q(<div class='row alert alert-info'>
          <h4>Nobody won!</h4>
-         <p>Total money is still $#{money}</p>
          </div>)
     end
 

@@ -45,6 +45,10 @@ post '/game/bet' do
 end
 
 get '/game' do
+  if blackjack?(player_cards)
+    session[:winner] = :player
+    payout(session[:winner])
+  end
   erb :game
 end
 
@@ -65,8 +69,9 @@ post '/game/player_hit' do
 end
 
 post '/game/player_double' do
-  hit(player_cards)
   double_bet
+  halt erb :game if @error
+  hit(player_cards)
   session[:dealer_turn] = true
   if bust?(player_cards)
     session[:winner] = :dealer

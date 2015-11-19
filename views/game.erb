@@ -1,21 +1,4 @@
-<% if session[:winner] %>
-    <%= display_winning_message(session[:winner]) %>
-
-    <% if money > 0 %>
-      <div class='row'>
-        <div class='span2'>
-          <form action='/game/bet' method='get'>
-            <button type='submit' class='btn btn-success btn-block'>
-              Play again
-            </button>
-          </form>
-        </div>
-      </div>
-    <% else %>
-      <p>Sorry you don't have any moeny left. Press Start over to play again</p>
-    <% end %>
-<% end %>
-
+<%= display_winning_message(session[:winner]) if session[:winner] %>
 
 <div class='row'>
   <div class='span12'>
@@ -41,7 +24,23 @@
     </div>
   </div>
   <div id='game_menu'>
-    <% unless session[:winner] %>
+    <p> Money: $<%= money %></p>
+    <p> <%= "Bet: #{bet}" unless session[:winner] %></p>
+    <% if session[:winner] %>
+      <% if money > 0 %>
+        <div class='row'>
+          <div class='span2'>
+            <form action='/game/bet' method='get'>
+              <button type='submit' class='btn btn-success btn-block'>
+                Play again
+              </button>
+            </form>
+          </div>
+        </div>
+      <% else %>
+        <p>Sorry you don't have any moeny left. Press Start over to play again</p>
+      <% end %>
+    <% else %>
       <% if session[:dealer_turn] %>
         <div class='row'>
           <div class='span3'>
@@ -58,5 +57,6 @@
         </div>
       <% end %>
     <% end %>
+    <p class='muted'><small>(Drag to reposition)</small></p>
   </div>
 </div>
