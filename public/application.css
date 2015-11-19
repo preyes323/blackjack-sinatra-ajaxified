@@ -1,4 +1,16 @@
 img.card_image {
   margin: 0 5px 5px 0;
-  height: 150px;
+  height: 140px;
+  border-radius: 7px;
+  box-shadow: 5px 5px 15px 5px rgba(0,0,0,0.53);
+}
+
+#game_menu {
+  background-color: blue;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 25px;
+  padding: 20px;
+  position: fixed;
+  right: 200px;
+  top: 100px;
 }
