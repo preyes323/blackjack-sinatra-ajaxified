@@ -1,28 +1,28 @@
 <%= display_winning_message(session[:winner]) if session[:winner] %>
 
 <div class='row'>
-  <div class='span12'>
-    <div class='well'>
-      <h4>Dealer Cards</h4>
-      <% dealer_cards.each do |card| %>
-        <%= card_image(card) %>
-      <% end %>
-      <% if session[:dealer_turn] %>
-        <p>
-          <%= "Delaer has #{calculate_total(dealer_cards)}" %>
-        </p>
-      <% end %>
-    </div>
-    <div class='well'>
-      <h4>Player Cards</h4>
-      <% player_cards.each do |card| %>
-        <%= card_image(card) %>
-      <% end %>
+  <!-- <div class='span12'> -->
+  <div class='well'>
+    <h4>Dealer Cards</h4>
+    <% dealer_cards.each do |card| %>
+      <%= card_image(card) %>
+    <% end %>
+    <% if session[:dealer_turn] %>
       <p>
-        <%= "#{player_name} has #{calculate_total(player_cards)}" %>
+        <%= "Delaer has #{calculate_total(dealer_cards)}" %>
       </p>
-    </div>
+    <% end %>
   </div>
+  <div class='well'>
+    <h4>Player Cards</h4>
+    <% player_cards.each do |card| %>
+      <%= card_image(card) %>
+    <% end %>
+    <p>
+      <%= "#{player_name} has #{calculate_total(player_cards)}" %>
+    </p>
+  </div>
+  <!-- </div> -->
   <div id='game_menu'>
     <p> Money: $<%= money %></p>
     <p> <%= "Bet: #{bet}" unless session[:winner] %></p>
