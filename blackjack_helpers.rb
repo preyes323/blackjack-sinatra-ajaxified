@@ -214,7 +214,25 @@ module Blackjack
          <h4>Nobody won!</h4>
          </div>)
     end
+  end
 
+  def check_player_status
+    if blackjack?(player_cards)
+      session[:winner] = :player
+    elsif bust?(player_cards)
+      session[:winner] = :dealer
+    end
+    if session[:winner]
+      session[:dealer_turn] = true
+      payout(session[:winner])
+    end
+  end
+
+  def check_dealer_status
+    if dealer_turn_end?
+      session[:winner] = get_winner(player_cards, dealer_cards)
+      payout(session[:winner])
+    end
   end
 
   private

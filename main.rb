@@ -45,10 +45,8 @@ post '/game/bet' do
 end
 
 get '/game' do
-  if blackjack?(player_cards)
-    session[:winner] = :player
-    payout(session[:winner])
-  end
+  check_player_status
+  check_dealer_status if session[:dealer_turn]
   erb :game
 end
 
@@ -60,11 +58,6 @@ end
 post '/game/player_hit' do
   hit(player_cards)
   session[:dealer_turn] = true if blackjack?(player_cards)
-  if bust?(player_cards)
-    session[:dealer_turn] = true
-    session[:winner] = :dealer
-    payout(session[:winner])
-  end
   redirect '/game'
 end
 
@@ -81,12 +74,7 @@ post '/game/player_double' do
 end
 
 post '/game/dealer_show' do
-  if dealer_turn_end?
-    session[:winner] = get_winner(player_cards, dealer_cards)
-    payout(session[:winner])
-  else
-    hit(dealer_cards)
-  end
+  hit(dealer_cards)
   redirect '/game'
 end
 
