@@ -13,12 +13,12 @@ $(document).ready(function() {
     }
   });
   $(document).on('click', '#hit-btn', function() {
-    $('#player_well img:last-of-type').animate({
-      marginLeft: '-=70px'
+    $.ajax({
+      type: 'POST',
+      url: '/game/player_hit'
+    }).done(function(msg) {
+      $('#game').replaceWith(msg);
     });
-    // , 400).promise().done( function() {
-    //   alert('done');
-    // });
-    // return false;
+    return false;
   });
 });

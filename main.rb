@@ -56,10 +56,16 @@ post '/game/player_stay' do
   redirect '/game'
 end
 
+get '/game/update' do
+  check_player_status
+  check_dealer_status if session[:dealer_turn]
+  erb :game, layout: false
+end
+
 post '/game/player_hit' do
   hit(player_cards)
   session[:dealer_turn] = true if blackjack?(player_cards)
-  redirect '/game'
+  redirect '/game/update'
 end
 
 post '/game/player_double' do
