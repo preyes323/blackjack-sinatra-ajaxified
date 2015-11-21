@@ -2,13 +2,13 @@ require 'rubygems'
 require 'sinatra'
 require 'pry'
 require_relative 'blackjack_helpers'
-require_relative 'error_handler'
 
 use Rack::Session::Cookie, key: 'rack.session',
                            path: '/',
                            secret: 'your_secret'
 
 get_player_name = lambda do
+  session[:game_start] = nil
   erb :player_name
 end
 
@@ -32,6 +32,7 @@ post '/game/buy_in' do
 end
 
 get '/game/bet' do
+  session[:game_start] = false
   erb :bet
 end
 

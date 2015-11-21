@@ -12,16 +12,13 @@ $(document).ready(function() {
       }, 250);
     }
   });
-  // $('#game_menu').mouseenter(function() {
-  //   $(this).animate({
-  //     height: '+=20px',
-  //     width: '+=20px'
-  //   });
-  // });
-  // $('#game_menu').mouseleave(function() {
-  //   $(this).animate({
-  //     height: '-=20px',
-  //     width: '-=20px'
-  //   });
-  // });
+  $(document).on('click', '#hit-btn', function() {
+    $('#player_well img:last-of-type').animate({
+      marginLeft: '-=70px'
+    });
+    // , 400).promise().done( function() {
+    //   alert('done');
+    // });
+    // return false;
+  });
 });

@@ -87,7 +87,7 @@ module Blackjack
                </div>
                <div class='span1'>
                <form action='/game/player_hit' method='post'>
-               <button type='submit' class='btn btn-warning btn-block'>Hit</button>
+               <button id='hit-btn' type='submit' class='btn btn-warning btn-block'>Hit</button>
                </form>
                </div>)
     unless doubled?
@@ -173,6 +173,7 @@ module Blackjack
     session[:winner] = nil
     session[:double] = false
     session[:split] = false
+    session[:game_start] = true
   end
 
   def card_image(card)
