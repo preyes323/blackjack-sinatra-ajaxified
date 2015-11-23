@@ -1,43 +1,4 @@
 <div id='game'>
-  <% if session[:game_start] %>
-    <div id='game_menu'>
-      <p> Money: $<%= money %></p>
-      <p> <%= "Bet: #{bet}" unless session[:winner] %></p>
-      <% if session[:winner] %>
-        <% if money > 0 %>
-          <div class='row'>
-            <div class='span2'>
-              <form action='/game/bet' method='get'>
-                <button type='submit' class='btn btn-success btn-block'>
-                  Play again
-                </button>
-              </form>
-            </div>
-          </div>
-        <% else %>
-          <p>Sorry you don't have any moeny left. Press Start over to play again</p>
-        <% end %>
-      <% else %>
-        <% if session[:dealer_turn] %>
-          <div class='row'>
-            <div class='span3'>
-              <form action='/game/dealer_show' method='post'>
-                <button type='submit' class='btn btn-success btn-block'>
-                  Show dealer's next card
-                </button>
-              </form>
-            </div>
-          </div>
-        <% else %>
-          <div class='row'>
-            <%= set_possible_moves %>
-          </div>
-        <% end %>
-      <% end %>
-      <p class='muted'><small>(Drag to reposition)</small></p>
-    </div>
-  <% end %>
-
   <%= display_winning_message(session[:winner]) if session[:winner] %>
   <div class='row'>
     <div class='well'>

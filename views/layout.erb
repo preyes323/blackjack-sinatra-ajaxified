@@ -28,6 +28,11 @@
       </div>
     <% end %>
     <%= yield %>
+    <% if session[:game_start] %>
+      <div id='game_menu'>
+        <%= erb :game_menu %>
+      </div>
+    <% end %>
   </div>
   </body>
 </html>

@@ -82,7 +82,7 @@ module Blackjack
   def set_possible_moves
     moves = %Q(<div class='span1'>
                <form action='/game/player_stay' method='post'>
-               <button type='submit' class='btn btn-success btn-block'>Stay</button>
+               <button id='stay-btn' type='submit' class='btn btn-success btn-block'>Stay</button>
                </form>
                </div>
                <div class='span1'>
@@ -94,7 +94,7 @@ module Blackjack
       moves += "\n"
       moves += %Q(<div class='span1'>
                   <form action='/game/player_double' method='post'>
-                  <button type='submit' class='btn btn-danger btn-block'>Double</button>
+                  <button id='double-btn' type='submit' class='btn btn-danger btn-block'>Double</button>
                   </form>
                   </div>)
       session[:double] = true

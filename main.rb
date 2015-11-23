@@ -51,9 +51,13 @@ get '/game' do
   erb :game
 end
 
+get '/game/game_menu_content' do
+  erb :game_menu, layout: false
+end
+
 post '/game/player_stay' do
   session[:dealer_turn] = true
-  redirect '/game'
+  redirect '/game/update'
 end
 
 get '/game/update' do
@@ -77,12 +81,12 @@ post '/game/player_double' do
     session[:winner] = :dealer
     payout(session[:winner])
   end
-  redirect '/game'
+  redirect '/game/update'
 end
 
 post '/game/dealer_show' do
   hit(dealer_cards)
-  redirect '/game'
+  redirect '/game/update'
 end
 
 before '/game*' do
