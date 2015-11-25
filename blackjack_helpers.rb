@@ -2,6 +2,7 @@ module Blackjack
   include Comparable
   INVALID_MONEY = -1
   MULTIPLE = 10
+  BLACKJACK = 21
 
   def authenticated?
     @error = 'Input player name first!' unless player_name
@@ -115,7 +116,7 @@ module Blackjack
     end.reduce(:+)
     cards.each do |card|
       if card[1] == 'A'
-        if (total + 11) > 21
+        if (total + 11) > BLACKJACK
           total += 1
         else
           total += 11
@@ -134,11 +135,11 @@ module Blackjack
   end
 
   def bust?(cards)
-    calculate_total(cards) > 21
+    calculate_total(cards) > BLACKJACK
   end
 
   def blackjack?(cards)
-    calculate_total(cards) == 21
+    calculate_total(cards) == BLACKJACK
   end
 
   def get_winner(player_cards, dealer_cards)
